@@ -22,7 +22,6 @@ const limiter = require('./middlewares/limiter');
 const { PORT = 3000 } = process.env;
 const app = express();
 app.use(helmet());
-app.use(limiter);
 
 app.use(express.json());
 
@@ -35,9 +34,10 @@ app.get('/crash-test', () => {
 });
 
 app.use(requestLogger);
+app.use(limiter);
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
-
+app.use(limiter);
 app.use(routes);
 app.use(errorLogger);
 app.use(errors());
