@@ -1,6 +1,6 @@
 const Movie = require('../models/movie');
 
-const { REQUEST_OK, CREATE_OK } = require('../errors/errors');
+const { REQUEST_OK, CREATE_OK } = require('../utils/constants');
 
 const NotFoundError = require('../errors/notFoundError');
 const ValidationError = require('../errors/validationError');
