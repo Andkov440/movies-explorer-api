@@ -46,9 +46,12 @@ const updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
+        next(new ValidationError('Переданы некорректные данные при создании пользователя'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
+      } else {
+        next(err);
       }
-      return next(new ServerError('Произошла ошибка'));
     });
 };
 
@@ -65,7 +68,6 @@ const login = (req, res, next) => {
 
 const getCurrentUser = (req, res, next) => {
   const { _id } = req.user;
-  console.log(req.user);
   User.findById(_id)
     .then((user) => {
       if (!user) {
